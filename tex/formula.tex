@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{outlines}
+\usepackage{graphicx, subfigure, multirow, times, balance, color}
+\usepackage{balance, hyperref, amsfonts, verbatim, mathtools, paralist, cite}
+\usepackage{graphicx, xspace, subfigure}
+\usepackage{comment}
+\usepackage[letterpaper,hmargin={1in,1in},vmargin={1in,1in}]{geometry}
+\usepackage[small]{caption}
+
+\title{Model Checking Notes}
+\author{}
+\date{}
+
+\begin{document}
+\section{General}
+Anything sent by $n$ is subsequently received at $n'$.
+     \begin{align*}
+         send(n, p) \implies \textbf{X} (\exists n': n' \neq n \land recv(n', p))
+     \end{align*}
+\section{IDS}
+Based on the code at \url{https://github.com/apanda/model-lang/blob/master/src/main/scala/ids.scala} and for IDS $m$
+     \begin{align*}
+         recv(m, p) \land suspicious(p, history) \implies \textbf{X}\Box contains(history, p)\\
+         recv(m, p) \land \lnot suspicious(p, history) \implies \textbf{X} (send(m, p) \land \Box contains(history, p))
+     \end{align*}
+\section{Firewall}
+Based on the code at \url{https://github.com/apanda/model-lang/blob/master/src/main/scala/ids.scala} and for IDS $m$
+     \begin{align*}
+         recv(m, p) \land AclAccept (src(p), dest(p)) \implies \textbf{X} (send(m, p))
+     \end{align*}
+\end{document}
